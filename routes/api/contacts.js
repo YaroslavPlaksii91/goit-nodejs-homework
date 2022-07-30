@@ -2,21 +2,22 @@ const express = require("express");
 
 const { basedir } = global;
 
-const controllers = require(`${basedir}/controllers/contacts`);
-const { controllerWrap } = require(`${basedir}/helpers`);
+const { contacts: ctrl } = require(`${basedir}/controllers`);
+const { ctrlWrap } = require(`${basedir}/helpers`);
+const { auth } = require(`${basedir}/middlewares`);
 
 const router = express.Router();
 
-router.get("/", controllerWrap(controllers.get));
+router.get("/", auth, ctrlWrap(ctrl.get));
 
-router.get("/:id", controllerWrap(controllers.getById));
+router.get("/:id", auth, ctrlWrap(ctrl.getById));
 
-router.post("/", controllerWrap(controllers.create));
+router.post("/", auth, ctrlWrap(ctrl.create));
 
-router.put("/:id", controllerWrap(controllers.update));
+router.put("/:id", auth, ctrlWrap(ctrl.update));
 
-router.patch("/:id/favorite", controllerWrap(controllers.updateStatus));
+router.patch("/:id/favorite", auth, ctrlWrap(ctrl.updateStatus));
 
-router.delete("/:id", controllerWrap(controllers.remove));
+router.delete("/:id", auth, ctrlWrap(ctrl.remove));
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const { basedir } = global;
 
-const service = require(`${basedir}/services/contact`);
+const { contact: service } = require(`${basedir}/services`);
 const { addSchema } = require(`${basedir}/models`);
 const { createError } = require(`${basedir}/helpers`);
 
@@ -11,7 +11,8 @@ const create = async (req, res) => {
     throw createError(400, "missing required name field");
   }
 
-  const result = await service.createContact(req.body);
+  const { id: owner } = req.user;
+  const result = await service.createContact({ ...req.body, owner });
   res.status(201).json({
     status: "success",
     code: 201,
