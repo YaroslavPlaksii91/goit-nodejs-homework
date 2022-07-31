@@ -11,24 +11,24 @@ const get = async (req, res) => {
     limit: Number(limit),
   });
 
-  // if (Boolean(favorite) === true || Boolean(favorite) === false) {
-  //   const favoriteContacts = await service.getAllContacts(
-  //     { owner, favorite },
-  //     "",
-  //     {
-  //       skip,
-  //       limit: Number(limit),
-  //     }
-  //   );
-  //   res.json({
-  //     status: "success",
-  //     code: 200,
-  //     data: {
-  //       favoriteContacts,
-  //     },
-  //   });
-  //   return;
-  // }
+  if (favorite !== undefined) {
+    const favoriteContacts = await service.getAllContacts(
+      { owner, favorite },
+      "",
+      {
+        skip,
+        limit: Number(limit),
+      }
+    );
+    res.json({
+      status: "success",
+      code: 200,
+      data: {
+        favoriteContacts,
+      },
+    });
+    return;
+  }
 
   res.json({
     status: "success",

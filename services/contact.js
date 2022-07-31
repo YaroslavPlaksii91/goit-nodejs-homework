@@ -8,7 +8,8 @@ const getAllContacts = (query, settings, pagination) =>
     "email subscription"
   );
 
-const getContactById = (id) => Contact.findById(id);
+const getContactById = (id) =>
+  Contact.findById(id).populate("owner", "email subscription");
 
 const createContact = (body) => Contact.create(body);
 
