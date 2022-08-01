@@ -2,25 +2,21 @@ const { basedir } = global;
 
 const { Contact } = require(`${basedir}/models`);
 
-const getAllContacts = async () => {
-  return Contact.find();
-};
+const getAllContacts = (query, settings, pagination) =>
+  Contact.find(query, settings, pagination).populate(
+    "owner",
+    "email subscription"
+  );
 
-const getContactById = (id) => {
-  return Contact.findById(id);
-};
+const getContactById = (id) =>
+  Contact.findById(id).populate("owner", "email subscription");
 
-const createContact = (body) => {
-  return Contact.create(body);
-};
+const createContact = (body) => Contact.create(body);
 
-const updateContact = (id, body) => {
-  return Contact.findByIdAndUpdate(id, body, { new: true });
-};
+const updateContact = (id, body) =>
+  Contact.findByIdAndUpdate(id, body, { new: true });
 
-const removeContact = (id) => {
-  return Contact.findByIdAndRemove(id);
-};
+const removeContact = (id) => Contact.findByIdAndRemove(id);
 
 module.exports = {
   getAllContacts,
