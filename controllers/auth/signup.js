@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const gravatar = require("gravatar");
 
 const { basedir } = global;
 
@@ -20,8 +21,10 @@ const signup = async (req, res) => {
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
+  const avatarURL = gravatar.url(email);
   const result = await service.createUser({
     ...req.body,
+    avatarURL,
     password: hashPassword,
   });
 
