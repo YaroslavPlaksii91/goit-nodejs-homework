@@ -1,6 +1,6 @@
 const path = require("path");
 const fs = require("fs/promises");
-// const Jimp = require("jimp");
+const Jimp = require("jimp");
 
 const { basedir } = global;
 
@@ -9,15 +9,6 @@ const { user: service } = require(`${basedir}/services`);
 const avatarsDir = path.join(basedir, "public", "avatars");
 
 const updateAvatar = async (req, res) => {
-  //   Jimp.read(tempUpload)
-  //     .then((img) => {
-  //       return img.resize(250, 250).write(resultUpload);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     })
-  //     .finally(await fs.unlink(tempUpload));
-
   try {
     const { _id: id } = req.user;
     const { path: tempPath, originalname } = req.file;
@@ -26,7 +17,12 @@ const updateAvatar = async (req, res) => {
     const uploadPath = path.join(avatarsDir, avatarName);
     const avatarURL = path.join("avatars", avatarName);
 
-    await fs.rename(tempPath, uploadPath);
+    Jimp.read(tempPath, (err, img) => {
+      if (err) throw err;
+      img.resize(250, 250).write(uploadPath);
+      fs.unlink(tempPath);
+    });
+
     await service.updateUser(id, { avatarURL });
 
     res.json({
@@ -37,7 +33,7 @@ const updateAvatar = async (req, res) => {
       },
     });
   } catch (error) {
-    await fs.unlink(req.file.path);
+    await fs.unlink(tempPath);
     throw error;
   }
 };
