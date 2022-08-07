@@ -25,4 +25,8 @@ router.patch(
   ctrlWrap(ctrl.updateAvatar)
 );
 
+router.get("/verify/:verificationToken", ctrlWrap(ctrl.verifyEmail));
+
+router.post("/verify", ctrlWrap(ctrl.reVerification));
+
 module.exports = router;
