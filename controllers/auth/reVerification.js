@@ -15,6 +15,10 @@ const reVerification = async (req, res) => {
 
   const user = await service.findUser({ email });
 
+  if (!user) {
+    throw createError(404);
+  }
+
   if (user.verify) {
     throw createError(400, "Verification has already been passed");
   }
@@ -22,7 +26,7 @@ const reVerification = async (req, res) => {
   const mail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${user.verificationToken}">Verify email</a>`,
+    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${user.verificationToken}">Please, follow the link to verify email</a>`,
   };
 
   await sendEmail(mail);
