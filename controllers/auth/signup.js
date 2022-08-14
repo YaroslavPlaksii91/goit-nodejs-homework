@@ -5,8 +5,8 @@ const { nanoid } = require("nanoid");
 const { basedir } = global;
 
 const { joiAuthSchema } = require(`${basedir}/models`);
-const { user: service } = require(`${basedir}/services`);
-const { createError, sendEmail } = require(`${basedir}/helpers`);
+const { user: service, sendEmail } = require(`${basedir}/services`);
+const { createError } = require(`${basedir}/helpers`);
 
 const signup = async (req, res) => {
   const { error } = joiAuthSchema.validate(req.body);

@@ -1,7 +1,7 @@
 const { basedir } = global;
 
-const { user: service } = require(`${basedir}/services`);
-const { createError, sendEmail } = require(`${basedir}/helpers`);
+const { user: service, sendEmail } = require(`${basedir}/services`);
+const { createError } = require(`${basedir}/helpers`);
 const { verifyEmailSchema } = require(`${basedir}/models`);
 
 const reVerification = async (req, res) => {
