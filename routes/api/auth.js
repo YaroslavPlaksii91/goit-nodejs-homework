@@ -10,13 +10,17 @@ const router = express.Router();
 
 router.post("/signup", ctrlWrap(ctrl.signup));
 
+router.get("/verify/:verificationToken", ctrlWrap(ctrl.verifyEmail));
+
+router.post("/verify", ctrlWrap(ctrl.reVerification));
+
 router.post("/login", ctrlWrap(ctrl.login));
 
 router.get("/current", auth, ctrlWrap(ctrl.getCurrent));
 
-router.get("/logout", auth, ctrlWrap(ctrl.logout));
-
 router.patch("/subscription", auth, ctrlWrap(ctrl.updateSubscription));
+
+router.get("/logout", auth, ctrlWrap(ctrl.logout));
 
 router.patch(
   "/avatars",
